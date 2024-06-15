@@ -22,9 +22,10 @@ class Process:
 
         self.PCB = {"PID": next(Process.ID_Counter),
                     "Size": random.randint(1, 512),
-                    "Request Memory Time": random.randint(1, 5),
+                    "Request Memory Time": random.randint(1, 5),  # For now request time is static todo
                     "Service Time": 0,
                     "Waiting Time": 0,
+                    "Arrival Time": random.randint(1, 10),  # For now the arrival time is static todo
                     "Status": None  # The value for Status can only be Terminated - Waiting - In Memory
                     }
 
@@ -52,6 +53,9 @@ class Process:
 
     def in_Memory(self):
         self.PCB['Status'] = 'In Memory'
+
+    def remaining(self):
+        return self.PCB['Request Memory Time'] - self.PCB['Service Time']
 
     def __str__(self):
         return str(self.PCB)

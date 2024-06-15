@@ -10,6 +10,7 @@ class Single_Queue_Sys:
         self.uti_log = []
         self.inter_frag_log = []
         self.slog = show_log
+        self.current_time = 0
 
     def init_q(self):
         for pID, process in self.pbatch.items():
@@ -63,11 +64,11 @@ class Single_Queue_Sys:
         # initializing the beginning state for queue
         self.init_q()
 
-        r = 0
+        self.current_time = 0
 
         while (not self.q.isEmpty()) or (not self.memory.isEmpty()):
             if self.slog:
-                self.show_log(r)
+                self.show_log(self.current_time)
 
             if not self.q.isEmpty():
                 # Retrieving the entering process of the Queue
