@@ -11,7 +11,8 @@ class Multi_Queue_Sys:
         self.pbatch = generate_process_batch(n=p_amount)
         self.memory = Memory(pbatch=self.pbatch, quantum_time=memory_quantum_time, size=memory_size)
         self.qs = {2 ** i: Queue() for i in range(math.ceil(math.log2(memory_size)))}
-        # self.pbatch_left = self.pbatch.copy()
+        self.pbatch_left = self.pbatch.copy()
+        self.current_time = 0
 
         self.uti_log = []
         self.inter_frag_log = []
@@ -40,32 +41,50 @@ class Multi_Queue_Sys:
             part_size = nearest_partition(process)
             self.qs[part_size].enqueue(pID)
 
-    def run_sys(self):
-        # initializing the beginning state for queue
-        self.init_q()
+    def update_q(self):
+        """
+        This method is used to enter processes that have arrived at the system to the queue.
 
-        r = 0
+        It updates the self.q property
+        """
+
+        found_pID = []
+        for pID, process in self.pbatch_left.items():
+            if process.PCB["Arrival Time"] == self.current_time:
+                part_size = nearest_partition(process)
+                self.qs[part_size].enqueue(pID)
+
+                found_pID.append(pID)
+
+        if len(found_pID) != 0:
+            for pID in found_pID:
+                _ = self.pbatch_left.pop(pID)
+
+    def run_sys(self):
+        self.current_time = 0
+
         empty_Qs = False
-        while (not empty_Qs) or (not self.memory.isEmpty()):
+        while (not empty_Qs) or (not self.memory.isEmpty()) or (len(self.pbatch_left) != 0):
+            self.update_q()
+
             if self.slog:
-                self.show_log(r)
+                self.show_log(self.current_time)
 
             # Entering Processes of all the Qs to the memory
             for part, q in self.qs.items():
 
                 if not q.isEmpty():
-                    # Retrieving the entering process of the Queue
+                    # Picking the Process from the Q based on the scheduler
                     e_process_pID = q.dequeue()
-                    e_process = self.pbatch[e_process_pID]
 
-                    # trying to enter the process to the memory
-
+                    # Passing the process to the memory
                     old_PID = self.memory.enter_memory(PID=e_process_pID, partition=part)
                     if old_PID is not None:
                         q.enqueue(old_PID)
 
             # One Step of the Memory
-            self.memory.one_step()
+            if not self.memory.isEmpty():
+                self.memory.one_step()
 
             # Updating the PCBs
             self.update_waiting_time()
@@ -79,7 +98,7 @@ class Multi_Queue_Sys:
             self.memory.clean_memory()
 
             # adding the time to the r for logging
-            r += self.memory.q_time
+            self.current_time += self.memory.q_time
 
             flag = True
             for part, q in self.qs.items():

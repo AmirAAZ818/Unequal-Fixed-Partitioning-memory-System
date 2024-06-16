@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-darkgrid')
 
 # Params (You Can Change)
-max_p_amount: int = 100
+max_p_amount: int = 200
 memory_size: int = 1024
 quantum_time: int = 1  # do not change for now todo
 sampling_step: int = 5
@@ -23,7 +23,7 @@ for batch_num in tqdm(range(10, max_p_amount, sampling_step), desc='Processing',
     m_Sys = Multi_Queue_Sys(memory_quantum_time=quantum_time, memory_size=memory_size, p_amount=batch_num,
                             show_log=False)
     s_Sys = Single_Queue_Sys(memory_quantum_time=quantum_time, memory_size=memory_size, p_amount=batch_num,
-                             show_log=False)
+                             show_log=False, scheduler='RR')
 
     # Running the systems
     m_Sys.run_sys()

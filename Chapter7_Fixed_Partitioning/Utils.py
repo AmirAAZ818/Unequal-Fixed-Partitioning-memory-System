@@ -1,5 +1,6 @@
 from Process import Process
 import math
+from queue import PriorityQueue
 
 
 def generate_process_batch(n=20):
@@ -58,3 +59,47 @@ class Queue:
     def __str__(self):
         res = '<<<<<Process Q is as Follow>>>>>\n' + str(self.Q)
         return res
+
+
+class PQ:
+    def __init__(self, pbatch: dict):
+        self.Q = PriorityQueue()
+        self.pbatch = pbatch
+
+    def enqueue(self, item: int):
+        process = self.pbatch[item]
+        self.Q.put((process.remaining(), item))
+
+    def dequeue(self):
+        return self.Q.get()[1]
+
+    @property
+    def size(self):
+        return self.Q.qsize()
+
+    def isEmpty(self):
+        return self.Q.empty()
+
+    def __getitem__(self, index):
+        return self.Q.queue[index][1]
+
+    def __str__(self):
+        res = '<<<<<Process Q is as Follow>>>>>\n' + str(self.Q.queue)
+        return res
+
+
+# pbatch = generate_process_batch(10)
+# p1 = PQ(pbatch=pbatch)
+#
+# for pid, _ in pbatch.items():
+#     p1.enqueue(pid)
+#
+# print('here i am')
+# for i in range(10):
+#     print(p1.Q.queue[i])
+#
+# print(p1.Q.queue)
+# print(p1.size)
+# for i in range(10):
+#     print(p1.dequeue())
+# print(p1.size)

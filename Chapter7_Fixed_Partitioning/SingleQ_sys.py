@@ -1,12 +1,12 @@
 from Memory import Memory
-from Utils import Queue, generate_process_batch, nearest_partition
+from Utils import Queue, generate_process_batch, nearest_partition, PQ
 
 
 class Single_Queue_Sys:
 
-    def __init__(self, memory_quantum_time: int = 1, memory_size: int = 1024, p_amount: int = 20, show_log=False):
-        self.q = Queue()
+    def __init__(self, memory_quantum_time: int = 1, memory_size: int = 1024, p_amount: int = 20, show_log=False, scheduler='RR'):
         self.pbatch = generate_process_batch(n=p_amount)
+        self.q = PQ(self.pbatch) if scheduler == "SRT" else Queue()
         self.memory = Memory(pbatch=self.pbatch, quantum_time=memory_quantum_time, size=memory_size)
         self.uti_log = []
         self.inter_frag_log = []
@@ -19,6 +19,11 @@ class Single_Queue_Sys:
             self.q.enqueue(pID)
 
     def update_q(self):
+        """
+        This method is used to enter processes that have arrived at the system to the queue.
+
+        It updates the self.q property
+        """
 
         found_pID = []
         for pID, process in self.pbatch_left.items():
@@ -80,9 +85,6 @@ class Single_Queue_Sys:
         print(self.q)
 
     def run_sys(self):
-        # initializing the beginning state for queue
-        # self.init_q()
-
         self.current_time = 0
 
         while (not self.q.isEmpty()) or (not self.memory.isEmpty()) or (len(self.pbatch_left) != 0):
@@ -92,11 +94,11 @@ class Single_Queue_Sys:
                 self.show_log(self.current_time)
 
             if not self.q.isEmpty():
-                # Retrieving the entering process of the Queue
+                # Picking the Process from the Q based on the scheduler
                 e_process_pID = self.q.dequeue()
                 e_process = self.pbatch[e_process_pID]
 
-                # trying to enter the process to the memory
+                # Passing the process to the memory
                 np = nearest_partition(process=e_process)
                 old_PID = self.memory.enter_memory(PID=e_process_pID, partition=np)
                 if old_PID is not None:
@@ -124,22 +126,3 @@ class Single_Queue_Sys:
             print("||||||||| Final PCB of the Batch of Processes |||||||||")
             for i in range(len(self.pbatch)):
                 print(self.pbatch[i])
-
-
-# s1 = Single_Queue_Sys(p_amount=10, show_log=True)
-# s1.run_sys()
-
-# print(s1.show_log(s1.current_time))
-# print(s1.pbatch_left)
-#
-#
-# print("___________ START ___________")
-# for i in range(20):
-#     print(f"Time : {s1.current_time} ")
-#     s1.update_q()
-#     print("pbatch left______")
-#     print(s1.pbatch_left)
-#
-#     print("Queue")
-#     print(s1.q)
-#     s1.current_time += 1
