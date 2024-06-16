@@ -11,6 +11,7 @@ class Multi_Queue_Sys:
         self.pbatch = generate_process_batch(n=p_amount)
         self.memory = Memory(pbatch=self.pbatch, quantum_time=memory_quantum_time, size=memory_size)
         self.qs = {2 ** i: Queue() for i in range(math.ceil(math.log2(memory_size)))}
+        # self.pbatch_left = self.pbatch.copy()
 
         self.uti_log = []
         self.inter_frag_log = []

@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-darkgrid')
 
 # Params (You Can Change)
-max_p_amount: int = 1000
+max_p_amount: int = 100
 memory_size: int = 1024
-quantum_time: int = 1
+quantum_time: int = 1  # do not change for now todo
 sampling_step: int = 5
 
 # For drawing the benchmarks
@@ -41,6 +41,7 @@ for batch_num in tqdm(range(10, max_p_amount, sampling_step), desc='Processing',
 
     Internal_Frags['M_Sys'].append(m_sys_benchs["avg if"])
     Internal_Frags['S_Sys'].append(s_sys_benchs["avg if"])
+
 
 # Drawing the plots
 fig, axs = plt.subplots(1, 3, figsize=(15, 3))

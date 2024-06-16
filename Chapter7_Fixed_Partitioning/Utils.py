@@ -20,9 +20,8 @@ def generate_process_batch(n=20):
 def nearest_partition(process: Process):
     """
     This method finds the nearest partition size for the process.
-    :param self:
-    :param process:
-    :return:
+    :param process: A process object
+    :return: the nearest partition size for the process
     """
     i = math.ceil(math.log2(process.PCB['Size']))
     np = 2 ** i
