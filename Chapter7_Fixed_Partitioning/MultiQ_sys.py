@@ -1,16 +1,16 @@
 import math
 
 from Memory import Memory
-from Utils import Queue, generate_process_batch, nearest_partition
+from Utils import Queue, generate_process_batch, nearest_partition, PQ
 
 
 class Multi_Queue_Sys:
 
     def __init__(self, memory_quantum_time: int = 1, memory_size: int = 1024, p_amount: int = 20,
-                 show_log: bool = False):
+                 show_log: bool = False, scheduler="RR"):
         self.pbatch = generate_process_batch(n=p_amount)
         self.memory = Memory(pbatch=self.pbatch, quantum_time=memory_quantum_time, size=memory_size)
-        self.qs = {2 ** i: Queue() for i in range(math.ceil(math.log2(memory_size)))}
+        self.qs = {2 ** i: PQ(pbatch=self.pbatch) if scheduler == 'SRT' else Queue() for i in range(math.ceil(math.log2(memory_size)))}
         self.pbatch_left = self.pbatch.copy()
         self.current_time = 0
 
