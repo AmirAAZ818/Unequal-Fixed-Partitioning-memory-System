@@ -96,7 +96,7 @@ class Single_Queue_Sys:
             self.memory.clean_memory()
 
             # adding the time to the r for logging
-            r += self.memory.q_time
+            self.current_time += self.memory.q_time
 
         if self.slog:
             print("||||||||| Final PCB of the Batch of Processes |||||||||")
