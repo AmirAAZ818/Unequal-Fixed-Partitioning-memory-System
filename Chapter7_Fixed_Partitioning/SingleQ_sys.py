@@ -13,6 +13,7 @@ class Single_Queue_Sys:
         self.slog = show_log
         self.current_time = 0
         self.pbatch_left = self.pbatch.copy()
+        self.scheduler = scheduler
 
     def init_q(self):
         for pID, process in self.pbatch.items():
@@ -102,6 +103,10 @@ class Single_Queue_Sys:
                 np = nearest_partition(process=e_process)
                 old_PID = self.memory.enter_memory(PID=e_process_pID, partition=np)
                 if old_PID is not None:
+                    if self.scheduler == "SRT":
+                        if self.pbatch[old_PID].remaining() < e_process.remaining():
+                            old_PID = self.memory.enter_memory(PID=old_PID, partition=np)
+
                     self.q.enqueue(old_PID)
 
             # One Step of the Memory

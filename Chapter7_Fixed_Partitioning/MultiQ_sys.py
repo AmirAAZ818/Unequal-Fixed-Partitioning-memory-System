@@ -17,7 +17,7 @@ class Multi_Queue_Sys:
         self.uti_log = []
         self.inter_frag_log = []
         self.slog = show_log
-
+        self.scheduler = scheduler
     def update_waiting_time(self):
         for part, q in self.qs.items():
             for i in range(q.size):
@@ -29,8 +29,14 @@ class Multi_Queue_Sys:
 
     def show_log(self, time):
         print(f"<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> TIME : {time}")
+        print("<<<<<<<<<<<<< Process Batch >>>>>>>>>>>>>")
         for i in range(len(self.pbatch)):
             print(self.pbatch[i])
+
+        print("<<<<<<<<<<<<< Remaining Process Batch >>>>>>>>>>>>>")
+        for pid, process in self.pbatch_left.items():
+            print(self.pbatch[pid])
+
         print(self.memory)
         for part, q in self.qs.items():
             print(f">>>>> Q of partition {part} <<<<<")
@@ -80,6 +86,9 @@ class Multi_Queue_Sys:
                     # Passing the process to the memory
                     old_PID = self.memory.enter_memory(PID=e_process_pID, partition=part)
                     if old_PID is not None:
+                        if self.scheduler == "SRT":
+                            if self.pbatch[old_PID].remaining() < self.pbatch[e_process_pID].remaining():
+                                old_PID = self.memory.enter_memory(PID=old_PID, partition=part)
                         q.enqueue(old_PID)
 
             # One Step of the Memory

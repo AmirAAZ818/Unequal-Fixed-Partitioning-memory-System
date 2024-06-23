@@ -26,7 +26,7 @@ class Process:
                     "Service Time": 0,
                     "Waiting Time": 0,
                     "Arrival Time": random.randint(0, 10),  # For now the arrival time is static todo
-                    "Status": 'Init'  # The value for Status can only be Terminated - Waiting - In Memory
+                    "Status": 'Init'  # The value for Status can only be Terminated - Waiting  In Memory
                     }
 
     def isDone(self):

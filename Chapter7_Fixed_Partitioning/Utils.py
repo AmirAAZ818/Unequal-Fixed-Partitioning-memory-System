@@ -87,19 +87,26 @@ class PQ:
         res = '<<<<<Process Q is as Follow>>>>>\n' + str(self.Q.queue)
         return res
 
-
+#
 # pbatch = generate_process_batch(10)
 # p1 = PQ(pbatch=pbatch)
 #
+# #
 # for pid, _ in pbatch.items():
 #     p1.enqueue(pid)
+# #
+# print(p1)
 #
-# print('here i am')
+# res = ''
 # for i in range(10):
-#     print(p1.Q.queue[i])
+#     res += str(p1.dequeue())
+#
+# print(res)
+
 #
 # print(p1.Q.queue)
 # print(p1.size)
 # for i in range(10):
 #     print(p1.dequeue())
 # print(p1.size)
+
