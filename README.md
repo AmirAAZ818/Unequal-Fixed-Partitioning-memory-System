@@ -22,7 +22,7 @@ First of all, we can interpret the word *Noghli* as *Little* in Farsi :)
 Here is the Class diagram of my implementation: 
 
 
-![Class Diagram](./Chapter7_Fixed_Partitioning/Docs/OS HomeWork_Class Diagram_updated.png)
+![Class Diagram](./Chapter7_Fixed_Partitioning/Docs/OS_HomeWork_Class_Diagram_updated.png)
 
 
 ---
@@ -46,7 +46,7 @@ The Keys of the PCB property are as follows:
 ### Status Diagram of a Process object
 
 
-![Status Diagram of a process object](./Chapter7_Fixed_Partitioning/Docs/Process State diagram_english.png)
+![Status Diagram of a process object](./Chapter7_Fixed_Partitioning/Docs/Process_State_diagram_english.png)
 
 
 ---
