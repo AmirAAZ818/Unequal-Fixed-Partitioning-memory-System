@@ -43,10 +43,10 @@ The Keys of the PCB property are as follows:
 - `Arrival Time`
 - `Status`
 
-### Status Diagram of a Process object
+### State Diagram of a Process object
 
 
-![Status Diagram of a process object](./Chapter7_Fixed_Partitioning/Docs/Process_State_diagram_english.png)
+![State Diagram of a process object](./Chapter7_Fixed_Partitioning/Docs/Process_State_diagram_english.png)
 
 
 ---
