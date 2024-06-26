@@ -21,7 +21,9 @@ First of all, we can interpret the word *Noghli* as *Little* in Farsi :)
 
 Here is the Class diagram of my implementation: 
 
+
 ![Class Diagram](./Chapter7_Fixed_Partitioning/Docs/OS HomeWork_Class Diagram_updated.png)
+
 
 ---
 ## Process Class
@@ -43,7 +45,10 @@ The Keys of the PCB property are as follows:
 
 ### Status Diagram of a Process object
 
+
 ![Status Diagram of a process object](./Chapter7_Fixed_Partitioning/Docs/Process State diagram_english.png)
+
+
 ---
 ## Results of the Simulation
 Here is the Result of my simulation where you can find the code of, in `main.py`.
